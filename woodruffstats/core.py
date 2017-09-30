@@ -13,7 +13,7 @@ client_secret = credentials['secret']
 
 
 # As a convenience, localhost.mapmyapi.com redirects to localhost.
-# redirect_uri = 'http://localhost.mapmyapi.com:12345/callback'
+redirect_uri = 'http://localhost.mapmyapi.com:12345/callback'
 redirect_uri_escaped = 'http%3A%2F%2Flocalhost.mapmyapi.com%3A12345%2Fcallback'
 authorize_url = 'https://api.ua.com/v7.1/oauth2/authorize/?' \
                 'client_id={0}&response_type=code&redirect_uri={1}'.format(client_id, redirect_uri)
