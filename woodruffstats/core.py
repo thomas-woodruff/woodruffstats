@@ -42,47 +42,50 @@ webbrowser.open(authorize_url)
 httpd = HTTPServer(server_address, AuthorizationHandler)
 print('Now waiting for the user to authorize the application...')
 httpd.handle_request()
+print('Authorised!')
 
 # At this point a request has been handled. Let's parse its URL.
-# httpd.server_close()
-# callback_url = urllib.parse.urlparse(httpd.path)
-# authorize_code = urllib.parse.parse_qs(callback_url.query)['code'][0]
+httpd.server_close()
+callback_url = urllib.parse.urlparse(httpd.path)
+authorize_code = urllib.parse.parse_qs(callback_url.query)['code'][0]
 
 
-# print('Got an authorize code:', authorize_code)
-
-# access_token_url = 'https://api.mapmyfitness.com/v7.1/oauth2/access_token/'
-# access_token_data = {'grant_type': 'authorization_code',
-#                      'client_id': client_id,
-#                      'client_secret': client_secret,
-#                      'code': authorize_code}
-
-# response = requests.post(url=access_token_url,
-#                          data=access_token_data,
-#                          headers={'Api-Key': client_id})
-
-# print('Request details:')
-# print('Content-Type:', response.request.headers['Content-Type'])
-# print('Request body:', response.request.body)
+print('Got an authorize code:', authorize_code)
 
 
-# # retrieve the access_token from the response
-# try:
-#     access_token = response.json()
-#     print('Got an access token:', access_token)
-# except:
-#     print('Did not get JSON. Here is the response and content:')
-#     print(response)
-#     print(response.content)
+print('Getting access token')
+access_token_url = 'https://api.mapmyfitness.com/v7.1/oauth2/access_token/'
+access_token_data = {'grant_type': 'authorization_code',
+                     'client_id': client_id,
+                     'client_secret': client_secret,
+                     'code': authorize_code}
+
+response = requests.post(url=access_token_url,
+                         data=access_token_data,
+                         headers={'Api-Key': client_id})
+
+print('Request details:')
+print('Content-Type:', response.request.headers['Content-Type'])
+print('Request body:', response.request.body)
 
 
-# # Use the access token to request a resource on behalf of the user
-# activity_type_url = 'https://api.ua.com/v7.1/activity_type/'
-# test_response = requests.get(url=activity_type_url, verify=False,
-#                         headers={'api-key': client_id, 'authorization': 'Bearer %s' % access_token['access_token']})
+# retrieve the access_token from the response
+try:
+    access_token = response.json()
+    print('Got an access token:', access_token)
+except:
+    print('Did not get JSON. Here is the response and content:')
+    print(response)
+    print(response.content)
 
 
-# print(test_response.json())
+# Use the access token to request a resource on behalf of the user
+activity_type_url = 'https://api.ua.com/v7.1/activity_type/'
+test_response = requests.get(url=activity_type_url, verify=False,
+                        headers={'api-key': client_id, 'authorization': 'Bearer %s' % access_token['access_token']})
+
+
+print(test_response.json())
 
 
 
