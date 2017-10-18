@@ -1,15 +1,21 @@
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
+from setuptools import setup
+from setuptools import find_packages
 
-config = {
-    'description': 'Woodruff Stats',
-    'version': '0.1',
-    'install_requires': ['nose'],
-    'packages': ['woodruffstats'],
-    'scripts': [],
-    'name': 'woodruffstats'
-}
+with open('requirements.txt') as req_file:
+    install_requires = req_file.readlines()
 
-setup(**config)
+# with open('test_requirements.txt') as req_file:
+#     tests_require = req_file.readlines()
+
+NAME = 'woodruffstats'
+VERSION = '0.0.0'
+
+setup(
+    name = NAME,
+    version = VERSION,
+    license='All rights reserved.',
+    packages = find_packages(),
+    install_requires=install_requires,
+    # tests_require=tests_require,
+    zip_safe=False
+)
