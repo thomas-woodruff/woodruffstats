@@ -1,19 +1,16 @@
 import woodruffstats.auth as auth
 import woodruffstats.read_credentials as read_credentials
+import woodruffstats.helpers as helpers
 import requests
 
-# credentials = read_credentials.read_credentials()
-# client_id = credentials['key']
-# client_secret = credentials['secret']
-# access_token = auth.get_access_token(credentials)
 
-# auth_headers = auth.construct_auth_headers(client_id, access_token)
-
-def get_user_id(auth_headers):
-	url = 'https://api.ua.com/v7.1/user/self/'
+def get_all_activity_types(auth_headers):
+	url = 'https://api.ua.com/v7.1/activity_type/'
 	response = requests.get(url=url, headers=auth_headers)
 
-	return response.json()['id']
+	activity_type_items = response.json()['_embedded']['activity_types']
+
+	return [{'id': i['_links']['self'][0]['id'], 'name': i['name']} for i in activity_type_items]
 
 
 def get_all_workouts(auth_headers, user_id):
@@ -36,13 +33,6 @@ def get_all_workouts(auth_headers, user_id):
 
 
 def get_workouts_runs(workouts):
-	return [i for i in workouts if i['_links']['activity_type'][0]['id'] == '16' and i['is_verified']]
+	return [i for i in workouts if i['_links']['activity_type'][0]['id'] in ('16', '188')]
 
 
-def get_all_activity_types(auth_headers):
-	url = 'https://api.ua.com/v7.1/activity_type/'
-	response = requests.get(url=url, headers=auth_headers)
-	
-	activity_type_items = response.json()['_embedded']['activity_types']
-	
-	return [{'id': i['_links']['self'][0]['id'], 'name': i['name']} for i in activity_type_items]

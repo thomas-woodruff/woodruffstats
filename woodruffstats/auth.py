@@ -85,3 +85,7 @@ def construct_auth_headers(client_id, access_token):
     # add logic around refreshing token
 
     return {'api-key': client_id, 'authorization': 'Bearer %s' % access_token['access_token']}
+
+
+def get_user_id(access_token):
+    return access_token['user_id']
