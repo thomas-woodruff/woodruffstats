@@ -1,6 +1,4 @@
 import woodruffstats.auth as auth
-import woodruffstats.read_credentials as read_credentials
-import woodruffstats.helpers as helpers
 import requests
 
 
@@ -30,9 +28,5 @@ def get_all_workouts(auth_headers, user_id):
 	    next_workouts_link = next_workouts_response['_links'].get('next')
 
 	return workouts
-
-
-def get_workouts_runs(workouts):
-	return [i for i in workouts if i['_links']['activity_type'][0]['id'] in ('16', '188')]
 
 
