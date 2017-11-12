@@ -2,7 +2,6 @@ import urllib.parse
 import webbrowser
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import requests
-import woodruffstats.read_credentials as read_credentials
 
 
 def get_access_token(credentials):
